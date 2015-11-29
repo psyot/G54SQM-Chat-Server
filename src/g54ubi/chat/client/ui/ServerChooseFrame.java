@@ -49,8 +49,6 @@ public class ServerChooseFrame extends JPanel {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Clicked!!!!!!");
-                ServerChooseFrame.this.hostLabel.setText("HAHA");
                 //validate user's input
                 String host = ServerChooseFrame.this.hostText.getText();
                 if ("".equals(host.trim())) {

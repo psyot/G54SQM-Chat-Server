@@ -1,9 +1,13 @@
 package test.g54ubi.chat.client.ui;
 
 import abbot.finder.Matcher;
+import abbot.finder.matchers.ClassMatcher;
 import abbot.tester.ComponentTester;
 import abbot.tester.JTextComponentTester;
+import g54ubi.chat.client.core.Client;
 import g54ubi.chat.client.ui.ServerChooseFrame;
+import g54ubi.chat.server.Server;
+import javafx.scene.input.KeyCode;
 import junit.extensions.abbot.ComponentTestFixture;
 import junit.extensions.abbot.TestHelper;
 import junit.framework.Test;
@@ -25,19 +29,47 @@ public class ServerChooseFrameTest extends ComponentTestFixture {
 
     public void testButtonClick() throws Throwable {
         final ServerChooseFrame serverChooseFrame = new ServerChooseFrame();
-        Frame frame = showFrame(serverChooseFrame);
-        JButton button = (JButton) getFinder().find(new Matcher() {
-            public boolean matches(Component c) {
-                // Add as much information as needed to distinguish the component
-                return c instanceof JButton && ((JButton) c).getText().equals("ok");
+        showFrame(serverChooseFrame);
+        JTextComponentTester tester = new JTextComponentTester();
+        //set host to "127.0.0.1"
+        JTextField hostText = (JTextField) getFinder().find(new Matcher() {
+            @Override
+            public boolean matches(Component component) {
+                return "hostText".equals(component.getName());
             }
         });
-        JTextComponentTester tester = new JTextComponentTester();
+        tester.actionKeyPress(hostText, 35);
+        for (int i = 0; i < 10; i++) {
+            tester.actionKeyPress(hostText, 8);
+        }
+        tester.actionEnterText(hostText, "127.0.0.1");
+        //set port to "9007"
+        JTextField portText = (JTextField) getFinder().find(new Matcher() {
+            @Override
+            public boolean matches(Component component) {
+                return "portText".equals(component.getName());
+            }
+        });
+        tester.actionKeyPress(portText, 35);
+        for (int i = 0; i < 5; i++) {
+            tester.actionKeyPress(portText, 8);
+        }
+        tester.actionEnterText(portText, "9007");
+        // clict button
+        JButton button = (JButton) getFinder().find(new ClassMatcher(JButton.class));
         tester.actionClick(button);
+        assertNotNull(Client.getInstance());
     }
 
     public ServerChooseFrameTest(String name) {
         super(name);
+        // start a server for test
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new Server(9007);
+            }
+        }).start();
     }
 
     public static void main(String[] args) {
