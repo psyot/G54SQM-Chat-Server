@@ -1,9 +1,9 @@
 package test.g54ubi.chat.server;
 
-import org.junit.Test;
-import org.junit.Before;
+import g54ubi.chat.server.Server;
 import org.junit.After;
-import g54ubi.chat.server.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -2,17 +2,12 @@ package test.g54ubi.chat.client.ui;
 
 import abbot.finder.Matcher;
 import abbot.finder.matchers.ClassMatcher;
-import abbot.tester.ComponentTester;
 import abbot.tester.JTextComponentTester;
 import g54ubi.chat.client.core.Client;
 import g54ubi.chat.client.ui.*;
 import g54ubi.chat.server.Server;
-import javafx.scene.input.KeyCode;
 import junit.extensions.abbot.ComponentTestFixture;
 import junit.extensions.abbot.TestHelper;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import junit.framework.TestCase;
 
 import javax.swing.*;
 import java.awt.*;
