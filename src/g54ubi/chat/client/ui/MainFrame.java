@@ -41,6 +41,7 @@ public class MainFrame extends JPanel {
         sourthPanel.add(stateButton, BorderLayout.SOUTH);
         idenButton = new JButton("iden");
         idenButton.setBounds(470, 400, 150, 40);
+        idenButton.setName("idenButton");
         sourthPanel.add(idenButton, BorderLayout.SOUTH);
         hailButton = new JButton("hail");
         hailButton.setBounds(30, 450, 150, 40);
