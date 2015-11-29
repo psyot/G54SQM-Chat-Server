@@ -3,6 +3,7 @@ package g54ubi.chat.client.ui;
 import g54ubi.chat.client.core.Client;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.net.Socket;
 /**
  * Created by linan on 2015/11/28.
  */
-public class ServerChooseFrame extends JFrame {
+public class ServerChooseFrame extends JPanel {
     private JLabel hostLabel;
     private JTextField hostText;
     private JLabel portLabel;
@@ -19,9 +20,9 @@ public class ServerChooseFrame extends JFrame {
     private JButton okButton;
 
     public ServerChooseFrame() {
-        super("Choose Server");
-        setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        super("Choose Server");
+        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // draw graph
         setBounds(400, 300, 500, 150);
         hostLabel = new JLabel("Host:");
@@ -50,7 +51,6 @@ public class ServerChooseFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Clicked!!!!!!");
                 ServerChooseFrame.this.hostLabel.setText("HAHA");
-                /*
                 //validate user's input
                 String host = ServerChooseFrame.this.hostText.getText();
                 if ("".equals(host.trim())) {
@@ -74,15 +74,23 @@ public class ServerChooseFrame extends JFrame {
                 try {
                     Socket socket = new Socket(host, port);
                     Client.init(socket);
-                    ServerChooseFrame.this.setVisible(false);
-                    new MainFrame().setVisible(true);
+                    ServerChooseFrame.this.getParent().setVisible(false);
+                    MainFrame.showAsJFrame().setVisible(true);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                     JOptionPane.showMessageDialog(ServerChooseFrame.this, "Can not connected to the server!");
                     return;
                 }
-                */
             }
         });
+    }
+
+    public static JFrame showAsJFrame() {
+        JFrame serverChooseFrame = new JFrame("Choosen Server");
+        serverChooseFrame.add(new ServerChooseFrame());
+        serverChooseFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //serverChooseFrame.pack();
+        serverChooseFrame.setBounds(400, 300, 500, 150);
+        return serverChooseFrame;
     }
 }

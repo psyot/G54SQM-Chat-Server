@@ -3,27 +3,27 @@ package g54ubi.chat.client.ui;
 import g54ubi.chat.client.core.Client;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
  * Created by linan on 2015/11/28.
  */
-public class HailFrame extends JFrame {
+public class HailFrame extends JPanel {
     private JLabel contentLabel;
     private JTextField contentText;
     private JButton hailButton;
 
     public HailFrame() {
-        super("Hail");
-        setLayout(null);
+        setLayout(new FlowLayout());
         // draw graph
         setBounds(400, 300, 380, 150);
         contentLabel = new JLabel("content:");
         contentLabel.setBounds(10, 30, 80, 30);
         contentLabel.setName("contentLabel");
         add(contentLabel);
-        contentText = new JTextField();
+        contentText = new JTextField("Input the content will be broadcasted here.");
         contentText.setBounds(100, 30, 120, 30);
         contentText.setName("contentText");
         add(contentText);
@@ -46,5 +46,12 @@ public class HailFrame extends JFrame {
                 HailFrame.this.setVisible(false);
             }
         });
+    }
+
+    public static JFrame showAsJFrame() {
+        JFrame hailFrame = new JFrame("Hail");
+        hailFrame.add(new HailFrame());
+        hailFrame.setBounds(400, 300, 380, 150);
+        return hailFrame;
     }
 }

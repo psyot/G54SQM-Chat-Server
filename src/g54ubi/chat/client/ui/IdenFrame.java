@@ -3,27 +3,27 @@ package g54ubi.chat.client.ui;
 import g54ubi.chat.client.core.Client;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
  * Created by linan on 2015/11/28.
  */
-public class IdenFrame extends JFrame {
+public class IdenFrame extends JPanel {
     private JLabel usernameLabel;
     private JTextField usernameText;
     private JButton idenButton;
 
     public IdenFrame() {
-        super("Iden");
-        setLayout(null);
+        setLayout(new FlowLayout());
         // draw graph
         setBounds(400, 300, 380, 150);
         usernameLabel = new JLabel("username:");
         usernameLabel.setBounds(10, 30, 80, 30);
         usernameLabel.setName("usernameLabel");
         add(usernameLabel);
-        usernameText = new JTextField();
+        usernameText = new JTextField("Your username");
         usernameText.setBounds(100, 30, 120, 30);
         usernameText.setName("usernameText");
         add(usernameText);
@@ -46,5 +46,12 @@ public class IdenFrame extends JFrame {
                 IdenFrame.this.setVisible(false);
             }
         });
+    }
+
+    public static JFrame showAsJFrame() {
+        JFrame idenJFrame = new JFrame("Iden");
+        idenJFrame.add(new IdenFrame());
+        idenJFrame.setBounds(400, 300, 380, 150);
+        return idenJFrame;
     }
 }

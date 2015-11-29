@@ -3,13 +3,14 @@ package g54ubi.chat.client.ui;
 import g54ubi.chat.client.core.Client;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
  * Created by linan on 2015/11/28.
  */
-public class MesgFrame extends JFrame {
+public class MesgFrame extends JPanel {
     private JLabel userLabel;
     private JTextField userText;
     private JLabel contentLabel;
@@ -17,15 +18,14 @@ public class MesgFrame extends JFrame {
     private JButton mesgButton;
 
     public MesgFrame() {
-        super("Mesg");
-        setLayout(null);
+        setLayout(new FlowLayout());
         // draw graph
         setBounds(400, 300, 500, 150);
         userLabel = new JLabel("user:");
         userLabel.setBounds(10, 30, 50, 30);
         userLabel.setName("userLabel");
         add(userLabel);
-        userText = new JTextField("");
+        userText = new JTextField("receiver");
         userText.setBounds(70, 30, 70, 30);
         userText.setName("userText");
         add(userText);
@@ -33,7 +33,7 @@ public class MesgFrame extends JFrame {
         contentLabel.setBounds(170, 30, 50, 30);
         contentLabel.setName("contentLabel");
         add(contentLabel);
-        contentText = new JTextField("");
+        contentText = new JTextField("Input your message to send here");
         contentText.setBounds(230, 30, 130, 30);
         contentText.setName("contentText");
         add(contentText);
@@ -61,5 +61,12 @@ public class MesgFrame extends JFrame {
                 MesgFrame.this.setVisible(false);
             }
         });
+    }
+
+    public static JFrame showAsJFrame() {
+        JFrame mesgJFrame = new JFrame("Mesg");
+        mesgJFrame.add(new MesgFrame());
+        mesgJFrame.setBounds(400, 300, 500, 150);
+        return mesgJFrame;
     }
 }

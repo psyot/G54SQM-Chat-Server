@@ -3,6 +3,7 @@ package g54ubi.chat.client.ui;
 import g54ubi.chat.client.core.Client;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by linan on 2015/11/28.
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JPanel {
     private JTextArea contentArea;
     private JButton listButton;
     private JButton stateButton;
@@ -20,39 +21,39 @@ public class MainFrame extends JFrame {
     private JButton quitButton;
 
     public MainFrame() {
-        super("Chat Room");
-        setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
         // draw graph
         setBounds(300, 200, 700, 550);
-        contentArea = new JTextArea("hahah");
+        contentArea = new JTextArea("");
         contentArea.setEnabled(false);
         contentArea.setBounds(30, 20, 640, 350);
         contentArea.setName("contentArea");
-        add(contentArea);
+        add(contentArea, BorderLayout.CENTER);
+        JPanel sourthPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
+        add(sourthPanel, BorderLayout.SOUTH);
         listButton = new JButton("list");
         listButton.setBounds(30, 400, 150, 40);
         listButton.setName("listButton");
-        add(listButton);
+        sourthPanel.add(listButton, BorderLayout.SOUTH);
         stateButton = new JButton("state");
         stateButton.setBounds(250, 400, 150, 40);
         stateButton.setName("stateButton");
-        add(stateButton);
+        sourthPanel.add(stateButton, BorderLayout.SOUTH);
         idenButton = new JButton("iden");
         idenButton.setBounds(470, 400, 150, 40);
-        add(idenButton);
+        sourthPanel.add(idenButton, BorderLayout.SOUTH);
         hailButton = new JButton("hail");
         hailButton.setBounds(30, 450, 150, 40);
         hailButton.setName("hailButton");
-        add(hailButton);
+        sourthPanel.add(hailButton, BorderLayout.SOUTH);
         msgButton = new JButton("mesg");
         msgButton.setBounds(250, 450, 150, 40);
         msgButton.setName("msgButton");
-        add(msgButton);
+        sourthPanel.add(msgButton, BorderLayout.SOUTH);
         quitButton = new JButton("quit");
         quitButton.setBounds(470, 450, 150, 40);
         quitButton.setName("quitButton");
-        add(quitButton);
+        sourthPanel.add(quitButton, BorderLayout.SOUTH);
         // bind listener
         listButton.addActionListener(new ActionListener() {
             @Override
@@ -72,21 +73,21 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // show IdenFrame
-                new IdenFrame().setVisible(true);
+                IdenFrame.showAsJFrame().setVisible(true);
             }
         });
         hailButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // show HailFrame
-                new HailFrame().setVisible(true);
+                HailFrame.showAsJFrame().setVisible(true);
             }
         });
         msgButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // show MesgFrame
-                new MesgFrame().setVisible(true);
+                MesgFrame.showAsJFrame().setVisible(true);
             }
         });
         quitButton.addActionListener(new ActionListener() {
@@ -94,6 +95,7 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //  send "QUIT" command to server
                 Client.getInstance().quit();
+                MainFrame.this.getParent().setVisible(false);
                 System.exit(0);
             }
         });
@@ -111,7 +113,9 @@ public class MainFrame extends JFrame {
                 // loop to receive message from server
                 while (true) {
                     try {
-                        MainFrame.this.contentArea.append(client.getReturnedMessage() + "\n");
+                        // append space to the message  so that the length growing to 120
+                        StringBuffer sb = new StringBuffer(client.getReturnedMessage());
+                        MainFrame.this.contentArea.append(sb.toString() + "\n");
                     } catch (IOException e) {
                         e.printStackTrace();
                         MainFrame.this.contentArea.append("Some error occurs...\n");
@@ -119,5 +123,13 @@ public class MainFrame extends JFrame {
                 }
             }
         }).start();
+    }
+
+    public static JFrame showAsJFrame() {
+        JFrame mainJFrame = new JFrame("Chat");
+        mainJFrame.add(new MainFrame());
+        mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainJFrame.setBounds(300, 200, 700, 550);
+        return mainJFrame;
     }
 }
